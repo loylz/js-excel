@@ -26,15 +26,35 @@ module.exports = {
             template: 'index.html'
         }),
         new CleanWebpackPlugin(),
-        new CopyPlugin([
-            {
-                from: path.resolve(__dirname, 'src/NaN.ico'),
-                to: path.resolve(__dirname, 'dist')
-            }, 
-        ]
-        ),
+        new CopyPlugin([{
+            from: path.resolve(__dirname, 'src/NaN.ico'),
+            to: path.resolve(__dirname, 'dist')
+        }, ]),
         new MiniCssExtractPlugin({
             filename: 'bandle.[hash].css'
         })
-    ]
+    ],
+    module: {
+        rules: [{
+                test: /\.s[ac]ss$/i,
+                use: [
+                    // Creates `style` nodes from JS strings
+                    // 'style-loader',
+                    MiniCssExtractPlugin.loader,
+                    // Translates CSS into CommonJS
+                    'css-loader',
+                    // Compiles Sass to CSS
+                    'sass-loader'
+                ],
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader',
+                options: {
+                    presets: ['@babel/preset-env']
+                }
+            }
+        ],
+    },
 }
