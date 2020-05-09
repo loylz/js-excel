@@ -1,7 +1,8 @@
 console.log('module.js');
 
+// eslint-disable-next-line require-jsdoc
 async function start() {
-    await Promise.resolve()
-};
+  return await Promise.resolve('async Working...');
+}
 
-start();
+start().then(console.log);
